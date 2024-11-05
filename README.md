@@ -2,6 +2,47 @@
 
 This repository contains the AAI3001 project focused on dataset collection, model development, and deployment. It features a user-friendly interface and emphasizes scalability for future enhancements. The project is fully replicable for others to reproduce the results.
 
+## Getting started
+
+### We'll be using venv as our virtual environment
+```
+pip install virtualenv
+```
+
+1. **Create virtual environment**
+
+Mac
+```
+python3 -m venv myenv
+```
+
+Windows
+```
+python -m venv myenv
+```
+
+2. Activate virtual environment
+
+Mac
+```
+source myenv/bin/activate
+```
+
+Windows
+```
+source myenv/Scripts/activate
+```
+
+
+3. Install required libraries & dependancies 
+```
+pip install -r requirements.txt
+```
+
+### Runnig the app
+```
+streamlit run src/main.py
+```
 ## Project Organization
 
 ```
