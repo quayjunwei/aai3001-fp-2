@@ -52,6 +52,80 @@ def test_sample_and_copy_images(tmp_path):
     # Assertions
     atelectasis_dir = output_dir / "Atelectasis"
     no_finding_dir = output_dir / "No_Finding"
+import os
+import shutil
+import pytest
+from PIL import Image
+from src.etl.data_transformation import organize_images, augment_hernia_class
+
+@pytest.fixture
+def sample_filtered_data():
+    """
+    Creates a sample filtered DataFrame for testing.
+    """
+    import pandas as pd
+    data = {
+        "Image Index": ["img1.png", "img2.png", "img3.png"],
+        "Finding Labels": ["atelectasis", "cardiomegaly|effusion", "pneumonia"]
+    }
+    return pd.DataFrame(data)
+
+@pytest.fixture
+def image_path_dict(tmpdir):
+    """
+    Creates a temporary directory with mock images and returns their paths.
+    """
+    image_dir = tmpdir.mkdir("images")
+    img1 = image_dir.join("img1.png")
+    img2 = image_dir.join("img2.png")
+    img3 = image_dir.join("img3.png")
+    img1.write("")
+    img2.write("")
+    img3.write("")
+    
+    return {
+        "img1.png": str(img1),
+        "img2.png": str(img2),
+        "img3.png": str(img3)
+    }
+
+def test_organize_images(sample_filtered_data, image_path_dict, tmpdir):
+    """
+    Tests if organize_images correctly moves images into class-specific folders.
+    """
+    output_dir = tmpdir.mkdir("output")
+    allowed_labels = ["atelectasis", "cardiomegaly", "effusion", "pneumonia"]
+    
+    class_counts = organize_images(
+        sample_filtered_data, image_path_dict, str(output_dir), allowed_labels
+    )
+    
+    assert class_counts["atelectasis"] == 1
+    assert class_counts["cardiomegaly"] == 1
+    assert class_counts["effusion"] == 1
+    assert class_counts["pneumonia"] == 1
+
+    for label in allowed_labels:
+        class_folder = os.path.join(output_dir, label)
+        assert os.path.exists(class_folder)
+        assert len(os.listdir(class_folder)) == 1
+
+def test_augment_hernia_class(tmpdir):
+    """
+    Tests if augment_hernia_class correctly augments images in the 'hernia' folder.
+    """
+    hernia_folder = tmpdir.mkdir("hernia")
+    img1 = hernia_folder.join("img1.png")
+    img1.write("")  # Mock image file
+    
+    # Create a mock image
+    with Image.new("RGB", (100, 100)) as img:
+        img.save(str(img1))
+    
+    target_num_images = 5
+    augment_hernia_class(str(hernia_folder), target_num_images)
+    
+    assert len(os.listdir(hernia_folder)) == target_num_images
 
     assert atelectasis_dir.exists()
     assert no_finding_dir.exists()

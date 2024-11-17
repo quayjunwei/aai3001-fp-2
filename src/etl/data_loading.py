@@ -2,51 +2,49 @@ import os
 import pandas as pd
 import glob
 
-
-def load_dataset(csv_path):
+def load_and_filter_csv(csv_path, allowed_labels):
     """
-    Load the CSV dataset.
-
+    Loads a CSV file and filters rows based on allowed labels.
+    
     Args:
-        csv_path (str): Path to the dataset CSV file.
-
+        csv_path (str): Path to the CSV file.
+        allowed_labels (list): List of allowed labels (case insensitive).
+    
     Returns:
-        pd.DataFrame: Loaded dataset as a pandas DataFrame.
+        pandas.DataFrame: A filtered DataFrame containing rows where any of the allowed labels are found in the 'Finding Labels' column.
     """
-    return pd.read_csv(csv_path)
-
-
-def filter_data(data, allowed_labels):
-    """
-    Filter rows to include only allowed labels and add a 'Diagnosis Type' column.
-
-    Args:
-        data (pd.DataFrame): Input dataset.
-        allowed_labels (list): List of allowed diagnosis labels.
-
-    Returns:
-        pd.DataFrame: Filtered dataset.
-    """
+    data = pd.read_csv(csv_path)
     data_filtered = data[data['Finding Labels'].apply(
-        lambda x: any(label in x for label in allowed_labels)
+        lambda x: any(label in x.lower() for label in allowed_labels)
     )]
-
-    data_filtered['Diagnosis Type'] = data_filtered['Finding Labels'].apply(
-        lambda x: 'Multiple Diagnosis' if '|' in x else x
-    )
-
     return data_filtered
 
-
-def load_image_paths(base_image_dir):
+def gather_image_paths(image_dirs):
     """
-    Get a dictionary of image paths based on the nested directory structure.
-
+    Gathers image paths from specified directories.
+    
     Args:
-        base_image_dir (str): Base directory where images are stored.
-
+        image_dirs (str): A glob pattern matching directories containing images.
+    
     Returns:
-        dict: Dictionary with image filenames as keys and full paths as values.
+        dict: A dictionary mapping image filenames to their absolute paths.
     """
-    all_image_paths = glob.glob(f"{base_image_dir}/**", recursive=True)
-    return {os.path.basename(path): path for path in all_image_paths}
+    image_path_dict = {}
+    for image_dir in glob.glob(image_dirs):
+        for image_path in glob.glob(f"{image_dir}/*"):
+            image_name = os.path.basename(image_path)
+            image_path_dict[image_name] = image_path
+    return image_path_dict
+
+def create_output_directory(output_dir):
+    """
+    Creates the output directory if it doesn't already exist.
+    
+    Args:
+        output_dir (str): Path to the output directory.
+    
+    Returns:
+        None
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
