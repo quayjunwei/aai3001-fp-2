@@ -25,92 +25,67 @@ st.markdown(
     """
 )
 
-# File uploader for X-ray image
-img_data = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
+# Load the pre-trained model
+@st.cache_resource
+def load_model():
+    model_path = "C:/Users/kenan/aai3001-fp-2/models/densenet121_epoch55.pth"
+    model = models.densenet121(pretrained=False)
+    model.classifier = torch.nn.Linear(model.classifier.in_features, 15)  # Match the training structure
+
+    # Load checkpoint
+    checkpoint = torch.load(model_path, map_location=torch.device("cpu"))
+    model.load_state_dict(checkpoint["model_state_dict"])
+    model.eval()  # Set the model to evaluation mode
+    return model
+
+model = load_model()
+
+# Preprocess the image
+def preprocess_image(image):
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),  # Resize to model's expected input size
+        transforms.ToTensor(),  # Convert to tensor
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  # Normalize using ImageNet stats
+    ])
+    return transform(image).unsqueeze(0)  # Add batch dimension
+
+# Define class labels
+disease_labels = [
+    "Atelectasis", "Cardiomegaly", "Consolidation", "Edema", "Effusion",
+    "Emphysema", "Fibrosis", "Hernia", "Infiltration", "Mass", "No Finding",
+    "Nodule", "Pleural Thickening", "Pneumonia", "Pneumothorax"
+]
+
+# File uploader for a single X-ray image
+img_data = st.file_uploader("Upload an X-ray image", type=["jpg", "jpeg", "png"])
 
 if img_data is not None:
     st.image(img_data, caption="Uploaded image", use_column_width=True)
 
-    # Load the pre-trained model
-    @st.cache_resource
-    def load_model():
-        # Adjust path to model file
-        model_path = os.path.join(
-            os.path.dirname(__file__), "../models/densenet121_multilabel.pth"
-        )
-        model = models.densenet121(pretrained=False)
-        model.classifier = torch.nn.Linear(
-            model.classifier.in_features, 15
-        )  # Adjust for 14 diseases
+    # Add a button to trigger prediction
+    if st.button("Predict Disease"):
+        # Process uploaded image
+        image = Image.open(img_data).convert("RGB")
 
-        # Load checkpoint
-        checkpoint = torch.load(model_path, map_location=torch.device("cpu"))
+        # Predict probabilities
+        def predict(image):
+            input_tensor = preprocess_image(image)
+            with torch.no_grad():
+                outputs = model(input_tensor.to(torch.device("cpu")))  # Ensure predictions run on the CPU
+                probabilities = torch.sigmoid(outputs).cpu().squeeze().numpy()  # Apply sigmoid for multi-label classification
+            return probabilities
 
-        # Adjust state_dict to avoid mismatches
-        state_dict = checkpoint
-        if "state_dict" in checkpoint:
-            state_dict = checkpoint["state_dict"]
+        probabilities = predict(image)
 
-        model_state = model.state_dict()
-        for key in state_dict.keys():
-            if key in model_state and state_dict[key].shape == model_state[key].shape:
-                model_state[key] = state_dict[key]
+        # Display probabilities for each disease
+        st.write("### Predicted Probabilities")
+        for label, prob in zip(disease_labels, probabilities):
+            st.write(f"{label}: {prob:.4f}")
 
-        model.load_state_dict(model_state)
-        model.eval()  # Set model to evaluation mode
-        return model
+        # Determine the predicted classes based on a threshold
+        threshold = 0.5  # Adjust threshold as needed
+        predicted_classes = [label for label, prob in zip(disease_labels, probabilities) if prob > threshold]
 
-    model = load_model()
-
-    # Preprocess the image
-    def preprocess_image(image):
-        preprocess = transforms.Compose(
-            [
-                transforms.Grayscale(
-                    num_output_channels=3
-                ),  # Ensure 3 channels for input
-                transforms.Resize((224, 224)),  # Resize to model's expected input size
-                transforms.ToTensor(),  # Convert to tensor
-                transforms.Normalize(
-                    [0.485, 0.456, 0.406], [0.229, 0.224, 0.225]
-                ),  # Normalize using ImageNet stats
-            ]
-        )
-        return preprocess(image).unsqueeze(0)  # Add batch dimension
-
-    # Predict probabilities
-    def predict(image):
-        preprocessed_img = preprocess_image(image)
-        with torch.no_grad():
-            outputs = model(preprocessed_img)
-            probabilities = (
-                torch.sigmoid(outputs).cpu().numpy()[0]
-            )  # Use sigmoid for multi-label classification
-        return probabilities
-
-    # Process uploaded image
-    image = Image.open(img_data).convert("RGB")
-    probabilities = predict(image)
-
-    # Display probabilities for each disease
-    disease_labels = [
-        "Atelectasis",
-        "Cardiomegaly",
-        "Consolidation",
-        "Edema",
-        "Effusion",
-        "Emphysema",
-        "Fibrosis",
-        "Hernia",
-        "Infiltration",
-        "Mass",
-        "No Finding",
-        "Nodule",
-        "Pleural Thickening",
-        "Pneumonia",
-        "Pneumothorax",
-    ]
-
-    st.write("### Predicted Probabilities")
-    for label, prob in zip(disease_labels, probabilities):
-        st.write(f"{label}: {prob:.4f}")
+        # Display predicted classes
+        st.write("### Predicted Classes:")
+        st.write(", ".join(predicted_classes) if predicted_classes else "None")
