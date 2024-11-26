@@ -40,8 +40,8 @@ source myenv/Scripts/activate
 pip install -r requirements.txt
 ```
 
-## Model and Pickle File
-The trained model and pickle file required to run this project can be downloaded from the following link:
+## Trained model's Pickle File
+The trained model's Pickle File required to run this project can be downloaded from the following link:
 
 [Download Pickle File](https://sitsingaporetechedu-my.sharepoint.com/personal/2302675_sit_singaporetech_edu_sg/_layouts/15/onedrive.aspx?id=%2Fpersonal%2F2302675%5Fsit%5Fsingaporetech%5Fedu%5Fsg%2FDocuments%2FAAI3001%20Deep%20Learning%20%26%20Computer%20Vision%2Fmodels)
 
