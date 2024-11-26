@@ -93,6 +93,8 @@ target/
 # exclude data from source control by default
 *.csv
 *.xlsx
+*.pth
+*.pkl
 
 # Mac OS-specific storage files
 .DS_Store
