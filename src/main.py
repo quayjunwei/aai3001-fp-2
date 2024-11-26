@@ -25,12 +25,15 @@ st.markdown(
     """
 )
 
+
 # Load the pre-trained model
 @st.cache_resource
 def load_model():
-    model_path = "C:/Users/kenan/aai3001-fp-2/models/densenet121_epoch55.pth"
+    model_path = "models/densenet121_epoch55.pth"
     model = models.densenet121(pretrained=False)
-    model.classifier = torch.nn.Linear(model.classifier.in_features, 15)  # Match the training structure
+    model.classifier = torch.nn.Linear(
+        model.classifier.in_features, 15
+    )  # Match the training structure
 
     # Load checkpoint
     checkpoint = torch.load(model_path, map_location=torch.device("cpu"))
@@ -38,22 +41,41 @@ def load_model():
     model.eval()  # Set the model to evaluation mode
     return model
 
+
 model = load_model()
+
 
 # Preprocess the image
 def preprocess_image(image):
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),  # Resize to model's expected input size
-        transforms.ToTensor(),  # Convert to tensor
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  # Normalize using ImageNet stats
-    ])
+    transform = transforms.Compose(
+        [
+            transforms.Resize((224, 224)),  # Resize to model's expected input size
+            transforms.ToTensor(),  # Convert to tensor
+            transforms.Normalize(
+                [0.485, 0.456, 0.406], [0.229, 0.224, 0.225]
+            ),  # Normalize using ImageNet stats
+        ]
+    )
     return transform(image).unsqueeze(0)  # Add batch dimension
+
 
 # Define class labels
 disease_labels = [
-    "Atelectasis", "Cardiomegaly", "Consolidation", "Edema", "Effusion",
-    "Emphysema", "Fibrosis", "Hernia", "Infiltration", "Mass", "No Finding",
-    "Nodule", "Pleural Thickening", "Pneumonia", "Pneumothorax"
+    "Atelectasis",
+    "Cardiomegaly",
+    "Consolidation",
+    "Edema",
+    "Effusion",
+    "Emphysema",
+    "Fibrosis",
+    "Hernia",
+    "Infiltration",
+    "Mass",
+    "No Finding",
+    "Nodule",
+    "Pleural Thickening",
+    "Pneumonia",
+    "Pneumothorax",
 ]
 
 # File uploader for a single X-ray image
@@ -71,8 +93,12 @@ if img_data is not None:
         def predict(image):
             input_tensor = preprocess_image(image)
             with torch.no_grad():
-                outputs = model(input_tensor.to(torch.device("cpu")))  # Ensure predictions run on the CPU
-                probabilities = torch.sigmoid(outputs).cpu().squeeze().numpy()  # Apply sigmoid for multi-label classification
+                outputs = model(
+                    input_tensor.to(torch.device("cpu"))
+                )  # Ensure predictions run on the CPU
+                probabilities = (
+                    torch.sigmoid(outputs).cpu().squeeze().numpy()
+                )  # Apply sigmoid for multi-label classification
             return probabilities
 
         probabilities = predict(image)
@@ -84,7 +110,11 @@ if img_data is not None:
 
         # Determine the predicted classes based on a threshold
         threshold = 0.5  # Adjust threshold as needed
-        predicted_classes = [label for label, prob in zip(disease_labels, probabilities) if prob > threshold]
+        predicted_classes = [
+            label
+            for label, prob in zip(disease_labels, probabilities)
+            if prob > threshold
+        ]
 
         # Display predicted classes
         st.write("### Predicted Classes:")
