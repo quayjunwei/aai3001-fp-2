@@ -13,8 +13,6 @@ st.set_page_config(
 
 st.write("# AAI3001 Final Project 2")
 
-st.sidebar.success("Select a demo above.")
-
 st.markdown(
     """
     ## Introduction
