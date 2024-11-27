@@ -39,11 +39,12 @@ def download_model(url, save_path):
 def load_model():
     model_path = "models/densenet121_epoch55.pth"
     if not os.path.exists(model_path):
-        st.info("Downloading model. Please wait...")
-        # Use the GitHub Releases link
-        model_url = "https://github.com/quayjunwei/aai3001-fp-2/releases/download/v1.0/densenet121_epoch55.pth"
-        os.makedirs(os.path.dirname(model_path), exist_ok=True)
-        download_model(model_url, model_path)
+        # Use st.spinner to show a temporary message
+        with st.spinner("Downloading model. Please wait..."):
+            # Use the GitHub Releases link
+            model_url = "https://github.com/quayjunwei/aai3001-fp-2/releases/download/v1.0/densenet121_epoch55.pth"
+            os.makedirs(os.path.dirname(model_path), exist_ok=True)
+            download_model(model_url, model_path)
 
     # Ensure the file is valid
     if not os.path.exists(model_path) or os.path.getsize(model_path) == 0:
