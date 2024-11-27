@@ -4,6 +4,7 @@ from PIL import Image
 import torch
 import torchvision.transforms as transforms
 from torchvision import models
+import requests
 
 # Streamlit page setup
 st.set_page_config(
@@ -24,10 +25,30 @@ st.markdown(
 )
 
 
-# Load the pre-trained model
+def download_model(url, save_path):
+    response = requests.get(url, stream=True)
+    response.raise_for_status()  # Ensure the request is successful
+
+    with open(save_path, "wb") as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:  # Filter out keep-alive chunks
+                f.write(chunk)
+
+
 @st.cache_resource
 def load_model():
     model_path = "models/densenet121_epoch55.pth"
+    if not os.path.exists(model_path):
+        st.info("Downloading model. Please wait...")
+        # Use the GitHub Releases link
+        model_url = "https://github.com/quayjunwei/aai3001-fp-2/releases/download/v1.0/densenet121_epoch55.pth"
+        os.makedirs(os.path.dirname(model_path), exist_ok=True)
+        download_model(model_url, model_path)
+
+    # Ensure the file is valid
+    if not os.path.exists(model_path) or os.path.getsize(model_path) == 0:
+        raise ValueError("Model download failed or the file is empty.")
+
     model = models.densenet121(pretrained=False)
     model.classifier = torch.nn.Linear(
         model.classifier.in_features, 15
