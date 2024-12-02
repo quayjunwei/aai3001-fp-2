@@ -4,7 +4,7 @@ This repository contains the AAI3001 project focused on dataset collection, mode
 
 
 ## Contributions
-- Leong Tuck Ming Kenneth
+- Leong Tuck Ming Kenan
 - Justin Tan Yong An
 - Liew Xi Jun Adrian
 - Sherwyn Chan Yin Kit
@@ -76,7 +76,7 @@ The project adheres to several best practices to maintain readability, scalabili
 
 By adhering to these principles, this project is designed to be user-friendly, replicable, and scalable, making it accessible for fellow developers.
 
-### Runnig the app
+### Running the app
 ```
 streamlit run src/main.py
 ```
