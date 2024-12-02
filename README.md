@@ -3,10 +3,10 @@
 This repository contains the AAI3001 project focused on dataset collection, model development, and deployment. It features a user-friendly interface and emphasises scalability for future enhancements. The project is fully replicable for others to reproduce the results. The app is successfully deployed and is accessible at the following link: https://jjaskscan.streamlit.app/
 
 ## Contributions
-- Kenan Leong
-- Justin Tan 
-- Adrian Liew
-- Sherwyn Chan
+- Leong Tuck Ming Kenneth
+- Justin Tan Yong An
+- Liew Xi Jun Adrian
+- Sherwyn Chan Yin Kit
 - Quay Jun Wei
 
 ## Getting started
