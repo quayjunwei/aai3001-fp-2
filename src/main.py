@@ -91,9 +91,21 @@ elif page == "Model Prediction":
 
     # Define disease labels
     disease_labels = [
-        "Atelectasis", "Cardiomegaly", "Consolidation", "Edema", "Effusion", 
-        "Emphysema", "Fibrosis", "Hernia", "Infiltration", "Mass", 
-        "No Finding", "Nodule", "Pleural Thickening", "Pneumonia", "Pneumothorax"
+        "Atelectasis",
+        "Cardiomegaly",
+        "Consolidation",
+        "Edema",
+        "Effusion",
+        "Emphysema",
+        "Fibrosis",
+        "Hernia",
+        "Infiltration",
+        "Mass",
+        "No Finding",
+        "Nodule",
+        "Pleural Thickening",
+        "Pneumonia",
+        "Pneumothorax",
     ]
 
     # File uploader for image
@@ -107,7 +119,11 @@ elif page == "Model Prediction":
             for label, prob in zip(disease_labels, probabilities):
                 st.write(f"{label}: {prob:.4f}")
             threshold = 0.5
-            predicted_classes = [label for label, prob in zip(disease_labels, probabilities) if prob > threshold]
+            predicted_classes = [
+                label
+                for label, prob in zip(disease_labels, probabilities)
+                if prob > threshold
+            ]
             st.write("### Predicted Classes:")
             st.write(", ".join(predicted_classes) if predicted_classes else "None")
 
@@ -124,7 +140,7 @@ elif page == "Pipeline":
             - Classes are balanced to ensure sufficient representation for each disease type (1000 images per class).
 
         2. **Data Augmentation**:
-            - Techniques such as random rotation, flipping, and color jittering are applied to artificially increase the size and diversity of the dataset.
+            - Techniques such as random rotation and cropping are applied to artificially increase the size and diversity of the dataset.
 
         3. **Train-Validation-Test Split**:
             - Dataset is split into training (70%), validation (20%), and test (10%) sets, ensuring balanced representation across classes.

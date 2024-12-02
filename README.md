@@ -58,6 +58,15 @@ Save the file in the `models` directory before running the application.
 ```
 streamlit run src/main.py
 ```
+
+### Prerequisite to run pipeline: Dataset & CheXNet pre-trained weights 
+
+[Download the dataset](https://www.kaggle.com/datasets/nih-chest-xrays/data/data) and place it in `data/raw`
+
+[Download the the pre-trained CheXNet weights (model.pth.tar)](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EndudpPedUlBlZYnWYBbiGsB2X4TxlXXXq_nJikX4AQVOw?e=avVkyn) and place it in `models/`
+
+
+Data after ETL can also be found [here](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EmBJrHsqQRRNoutqXWeKZX8B-GnWXdQ4TsfdSfwK6rD9vQ?e=bAcRq7)
 ## Project Organization
 
 ```
@@ -105,10 +114,3 @@ streamlit run src/main.py
 
 --------
 
-### prerequisite to run pipeline: CheXNet pre-trained weights
-
-Download the file and place it in `models/`
-
-The pre-trained weights required to run this project can be downloaded from the following link: [Link to pretrained weights (model.pth.tar)](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EndudpPedUlBlZYnWYBbiGsB2X4TxlXXXq_nJikX4AQVOw?e=avVkyn)
-
-Data after ETL can also be found [here](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EmBJrHsqQRRNoutqXWeKZX8B-GnWXdQ4TsfdSfwK6rD9vQ?e=bAcRq7)
