@@ -40,10 +40,58 @@ source myenv/Scripts/activate
 pip install -r requirements.txt
 ```
 
+### STEPS TO RUN THE PROJECT
+
+#### Load CheXNet pre-trained weights
+
+Download the file and place it in `models/`
+
+The pre-trained weights required to run this project can be downloaded from the following link:
+
+[Link to pretrained weights (model.pth.tar)](https://sitsingaporetechedu-my.sharepoint.com/personal/2302675_sit_singaporetech_edu_sg/_layouts/15/onedrive.aspx?id=%2Fpersonal%2F2302675%5Fsit%5Fsingaporetech%5Fedu%5Fsg%2FDocuments%2FAAI3001%20Deep%20Learning%20%26%20Computer%20Vision%2Fmodels)
+
+#### Step 1: Run the ETL Pipeline
+
+The ETL pipeline processes raw data, filters it based on allowed labels, organizes it into class-specific folders, and performs data augmentation for underrepresented classes.
+
+Command:
+``` 
+python src/etl/etl_pipeline.py
+```
+
+#### Step 2: Split the Dataset
+
+Split the processed dataset into training, validation, and test sets. Ensure the necessary directories for splits exist (train, val, test).
+
+Command: 
+```
+python src/etl/data_splitting.py
+```
+
+#### Step 3: Train the Model
+
+Train the DenseNet model using the prepared dataset. The script will save the trained model in the models directory.
+
+Command: 
+```
+python src/modelling/train.py
+```
+
+#### Step 4: Make Predictions
+
+Use the trained model to make predictions on the test dataset. Modify the test_dir path in the script if needed.
+
+Command: 
+```
+python src/modelling/predict.py
+```
+
 ## Trained model's Pickle File
+
+Download the file and place it in `models/`
 The trained model's Pickle File required to run this project can be downloaded from the following link:
 
-[Download Pickle File](https://sitsingaporetechedu-my.sharepoint.com/personal/2302675_sit_singaporetech_edu_sg/_layouts/15/onedrive.aspx?id=%2Fpersonal%2F2302675%5Fsit%5Fsingaporetech%5Fedu%5Fsg%2FDocuments%2FAAI3001%20Deep%20Learning%20%26%20Computer%20Vision%2Fmodels)
+[Link to pretrained weights (densenet121_epoch55.pth)](https://sitsingaporetechedu-my.sharepoint.com/personal/2302675_sit_singaporetech_edu_sg/_layouts/15/onedrive.aspx?id=%2Fpersonal%2F2302675%5Fsit%5Fsingaporetech%5Fedu%5Fsg%2FDocuments%2FAAI3001%20Deep%20Learning%20%26%20Computer%20Vision%2Fmodels)
 
 Save the file in the `models` directory before running the application.
 
