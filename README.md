@@ -43,9 +43,7 @@ pip install -r requirements.txt
 ## Trained model's Pickle File
 
 Download the file and place it in `models/`
-The trained model's Pickle File required to run this project can be downloaded from the following link:
-
-[Link to pretrained weights (densenet121_epoch55.pth)](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EndudpPedUlBlZYnWYBbiGsB2X4TxlXXXq_nJikX4AQVOw?e=avVkyn)
+The trained model's Pickle File required to run this project can be downloaded from the following link: [Link to pretrained weights (densenet121_epoch55.pth)](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EndudpPedUlBlZYnWYBbiGsB2X4TxlXXXq_nJikX4AQVOw?e=avVkyn)
 
 Save the file in the `models` directory before running the application.
 
@@ -104,8 +102,6 @@ streamlit run src/main.py
 
 Download the file and place it in `models/`
 
-The pre-trained weights required to run this project can be downloaded from the following link:
-
-[Link to pretrained weights (model.pth.tar)](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EndudpPedUlBlZYnWYBbiGsB2X4TxlXXXq_nJikX4AQVOw?e=avVkyn)
+The pre-trained weights required to run this project can be downloaded from the following link: [Link to pretrained weights (model.pth.tar)](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EndudpPedUlBlZYnWYBbiGsB2X4TxlXXXq_nJikX4AQVOw?e=avVkyn)
 
 Data after ETL can also be found [here](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EmBJrHsqQRRNoutqXWeKZX8B-GnWXdQ4TsfdSfwK6rD9vQ?e=bAcRq7)
