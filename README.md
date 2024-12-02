@@ -2,6 +2,7 @@
 
 This repository contains the AAI3001 project focused on dataset collection, model development, and deployment. It features a user-friendly interface and emphasises scalability for future enhancements. The project is fully replicable for others to reproduce the results. The app is successfully deployed and is accessible at the following link: https://jjaskscan.streamlit.app/
 
+
 ## Contributions
 - Leong Tuck Ming Kenneth
 - Justin Tan Yong An
@@ -46,13 +47,34 @@ source myenv/Scripts/activate
 ```
 pip install -r requirements.txt
 ```
+## Model Loading and Good Coding Practices
 
-## Trained model's Pickle File
+### Trained Model File Management
+To run this project, the trained model file (`densenet121_epoch55.pth`) is **not included in the GitHub repository**. Instead, it is available for download from the [GitHub Releases section](https://github.com/quayjunwei/aai3001-fp-2/releases/tag/v1.0) or [Onedrive (densenet121_epoch55.pth)](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EndudpPedUlBlZYnWYBbiGsB2X4TxlXXXq_nJikX4AQVOw?e=avVkyn). This approach adheres to **good coding practices**, including:
 
-Download the file and place it in `models/`
-The trained model's Pickle File required to run this project can be downloaded from the following link: [Link to pretrained weights (densenet121_epoch55.pth)](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EndudpPedUlBlZYnWYBbiGsB2X4TxlXXXq_nJikX4AQVOw?e=avVkyn)
+- **Minimising Repository Size**: Large files like models or datasets should not bloat the repository.
+- **Version Control**: Releases allow precise versioning for easier replication and debugging.
 
-Save the file in the `models` directory before running the application.
+When the application is running, the script will check for the model file in the `models/` directory. If it is not found, the application will automatically download it from the specified release. 
+
+### Good Coding Practices
+The project adheres to several best practices to maintain readability, scalability, and usability:
+
+1. **Modularization**:
+   - The code is split into meaningful modules (e.g., `etl`, `modelling`, `visualisation`), ensuring clear separation of concerns.
+   - Each module encapsulates specific functionality, making the project easier to maintain and extend.
+
+2. **PEP 8 Compliance**:
+   - The code follows the [PEP 8](https://peps.python.org/pep-0008/) style guide for Python, ensuring consistent and readable formatting.
+
+3. **Docstrings**:
+   - Each function and class includes a descriptive docstring, explaining its purpose, inputs, and outputs.
+   - These docstrings assist developers in understanding the code without requiring external documentation.
+
+4. **Caching**:
+   - Model loading uses `st.cache_resource` in Streamlit to optimize performance by avoiding redundant downloads or initialisations.
+
+By adhering to these principles, this project is designed to be user-friendly, replicable, and scalable, making it accessible for fellow developers.
 
 ### Runnig the app
 ```
