@@ -50,7 +50,7 @@ pip install -r requirements.txt
 ## Model Loading and Good Coding Practices
 
 ### Trained Model File Management
-To run this project, the trained model file (`densenet121_epoch55.pth`) is **not included in the GitHub repository**. Instead, it is available for download from the [GitHub Releases section](https://github.com/quayjunwei/aai3001-fp-2/releases/tag/v1.0) or [Onedrive (densenet121_epoch55.pth)](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EndudpPedUlBlZYnWYBbiGsB2X4TxlXXXq_nJikX4AQVOw?e=avVkyn). This approach adheres to **good coding practices**, including:
+To run this project, the trained model file (`densenet121_epoch55.pth`) is **not included in the GitHub repository**. Instead, it is available for download from the [GitHub Releases section](https://github.com/quayjunwei/aai3001-fp-2/releases/tag/v1.0) or [Onedrive (densenet121_epoch55.pth)](https://sitsingaporetechedu-my.sharepoint.com/:f:/g/personal/2302675_sit_singaporetech_edu_sg/EndudpPedUlBlZYnWYBbiGsB2X4TxlXXXq_nJikX4AQVOw?e=avVkyn). Note to place `densenet121_epoch55.pth` file in `models/` if downloaded from OneDrive. This approach adheres to **good coding practices**, including:
 
 - **Minimising Repository Size**: Large files like models or datasets should not bloat the repository.
 - **Version Control**: Releases allow precise versioning for easier replication and debugging.
