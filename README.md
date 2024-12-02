@@ -3,7 +3,7 @@
 This repository contains the AAI3001 project focused on dataset collection, model development, and deployment. It features a user-friendly interface and emphasises scalability for future enhancements. The project is fully replicable for others to reproduce the results. The app is successfully deployed and is accessible at the following link: https://jjaskscan.streamlit.app/
 
 ## Contributions
-- Leong Tuck Ming Kenneth
+- Leong Tuck Ming Kenan
 - Justin Tan Yong An
 - Liew Xi Jun Adrian
 - Sherwyn Chan Yin Kit
@@ -54,7 +54,7 @@ The trained model's Pickle File required to run this project can be downloaded f
 
 Save the file in the `models` directory before running the application.
 
-### Runnig the app
+### Running the app
 ```
 streamlit run src/main.py
 ```
